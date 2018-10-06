@@ -1,0 +1,54 @@
+---
+title: "Workout 1"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r object setup}
+library(readr)
+library(dplyr)
+setwd("C:/Users/andra/OneDrive/Desktop/Berkeley/stat133-fall-2018-master/hws/workout01/code")
+teams <- read.csv(file = "../data/nba2018-teams.csv")
+```
+```{r barplot salary}
+library(ggplot2)
+
+ggplot(teams, aes(x= reorder(team, salary), y = salary)) + geom_bar(stat= 'identity') +coord_flip() + ylab("Salary (in Millions)") + xlab("Team") + geom_hline(aes(mean(teams$salary)), yintercept = mean(teams$salary), col = 'red', size = 2)
+```
+
+```{r barplot points1}
+ggplot(teams, aes(x= reorder(team, points), y = points)) + geom_bar(stat= 'identity') +coord_flip() + ylab("Points") + xlab("Team") + geom_hline(aes(mean(teams$points)), yintercept = mean(teams$points), col = 'red', size = 2)
+```
+
+```{r barplot efficiency}
+ggplot(teams, aes(x= reorder(team, efficiency), y = efficiency)) + geom_bar(stat= 'identity') +coord_flip() + ylab("efficiency") + xlab("Team") + geom_hline(aes(mean(teams$efficiency)), yintercept = mean(teams$efficiency), col = 'red', size = 2)
+```
+
+```{r barplot possession}
+teams_2 <- mutate(teams, possesion_efficiency = ((steals+def_rebounds) - (turnovers)) / 82)
+ggplot(teams_2, aes(x= reorder(team, possesion_efficiency), y = possesion_efficiency)) + geom_bar(stat= 'identity') +coord_flip() + ylab("Possesion Efficiency") + xlab("Team") + geom_hline(aes(mean(teams_2$ppossesion_efficiency)), yintercept = mean(teams_2$possesion_efficiency), col = 'red', size = 2)
+```
+
+the metric I came up with aggregates steals and def_rebounds and deducts turnovers and fouls from that. I then get the average per game to see how often the team is able to get possesion back from the other team. this should be an an indicator of how often the team is attacking and therefore should have more oppurtunity to score.
+
+#comments and reflection
+1. Was this your first time working on a project with such file structure? If yes, how doyou feel about it?
+    i) No, it was easy.
+2.Was this your first time using relative paths? If yes, can you tell why they are important for reproducibility purposes?
+    i) No, but they are important to make sure someone can run your code by having the same Working directory
+3. Was this your first time using an R script? If yes, what do you think about just writing code (without markdown syntax)?
+    i) No, its cool but definetly a shift from traditional .Rmd which we learned on
+4. What things were hard, even though you saw them in class/lab?
+    i) the horizonal bar graph with the line
+5. What was easy(-ish) even though we haven't done it in class/lab?
+    i) re-ordering the data when arrange didnt work
+6. Did anyone help you completing the assignment? If so, who?
+    i) No, but I used piazza if that counts
+7. How much time did it take to complete this HW?
+    i) about 4 hours
+8. What was the most time consuming part?
+    i) Data Dictionary
+9.Was there anything interesting?
+    i) Coming up with my own metric was cool and stimulated a very interesting disucssion amongst my sports fan friends who I consulted on Basketball rules since I'm not a regular of the game.
